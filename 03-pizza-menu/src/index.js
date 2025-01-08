@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import { PIZZA_DATA } from "./data.js";
 
 function App() {
   return (
@@ -21,15 +22,21 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = [PIZZA_DATA];
+
   return (
     <main className="menu">
       <h2>Our Menu</h2>
-      <Pizza
-        name="Pizza Focaccia"
-        ingredients="Bread with italian olive oil and rosemary"
-        photoName="pizzas/focaccia.jpg"
-        price={10}
-      />
+
+      {pizzas.length > 0 ? (
+        <ul className="pizzas">
+          {PIZZA_DATA.map((pizza) => (
+            <Pizza pizza={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      ) : (
+        <p>We're still working on our menu. Please come back later :)</p>
+      )}
     </main>
   );
 }
@@ -37,14 +44,14 @@ function Menu() {
 function Pizza(props) {
   console.log(props);
   return (
-    <div className="pizza">
-      <img src={props.photoName} alt={props.name} />
+    <li className="pizza">
+      <img src={props.pizza.photoName} alt={props.pizza.name} />
       <div>
-        <h3>{props.name}</h3>
-        <p>{props.ingredients}</p>
-        <span>{props.price}</span>
+        <h3>{props.pizza.name}</h3>
+        <p>{props.pizza.ingredients}</p>
+        <span>{props.pizza.price}</span>
       </div>
-    </div>
+    </li>
   );
 }
 
@@ -55,7 +62,20 @@ function Footer() {
   const isOpen = hour >= open && hour < close;
   console.log("isOpen", isOpen);
 
-  return <footer className="footer">{hour}. We're currently open</footer>;
+  return (
+    <footer className="footer">
+      {isOpen ? (
+        <div className="order">
+          <p>We're open until {close}:00. Come visit us or order online.</p>
+          <button className="btn">Order now</button>
+        </div>
+      ) : (
+        <p>
+          We're happy to welcome you between {open}:00 and {close}:00.
+        </p>
+      )}
+    </footer>
+  );
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

@@ -1,4 +1,4 @@
-const pizzaData = [
+export const PIZZA_DATA = [
   {
     name: "Focaccia",
     ingredients: "Bread with italian olive oil and rosemary",
