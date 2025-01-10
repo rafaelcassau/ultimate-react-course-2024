@@ -29,11 +29,17 @@ function Menu() {
       <h2>Our Menu</h2>
 
       {pizzas.length > 0 ? (
-        <ul className="pizzas">
-          {PIZZA_DATA.map((pizza) => (
-            <Pizza pizza={pizza} key={pizza.name} />
-          ))}
-        </ul>
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from ours stone oven, all organic, all delicious.
+          </p>
+          <ul className="pizzas">
+            {PIZZA_DATA.map((pizza) => (
+              <Pizza pizza={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </>
       ) : (
         <p>We're still working on our menu. Please come back later :)</p>
       )}
@@ -41,15 +47,14 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
-  console.log(props);
+function Pizza({ pizza }) {
   return (
-    <li className="pizza">
-      <img src={props.pizza.photoName} alt={props.pizza.name} />
+    <li className={`pizza ${pizza.soldOut ? "sold-out" : ""}`}>
+      <img src={pizza.photoName} alt={pizza.name} />
       <div>
-        <h3>{props.pizza.name}</h3>
-        <p>{props.pizza.ingredients}</p>
-        <span>{props.pizza.price}</span>
+        <h3>{pizza.name}</h3>
+        <p>{pizza.ingredients}</p>
+        <span>{pizza.soldOut ? "SOLD OUT" : pizza.price}</span>
       </div>
     </li>
   );
@@ -65,16 +70,25 @@ function Footer() {
   return (
     <footer className="footer">
       {isOpen ? (
-        <div className="order">
-          <p>We're open until {close}:00. Come visit us or order online.</p>
-          <button className="btn">Order now</button>
-        </div>
+        <Order open={open} close={close} />
       ) : (
         <p>
           We're happy to welcome you between {open}:00 and {close}:00.
         </p>
       )}
     </footer>
+  );
+}
+
+function Order({ close, open }) {
+  return (
+    <div className="order">
+      <p>
+        We're open from {open}:00 until {close}:00. Come visit us or order
+        online.
+      </p>
+      <button className="btn">Order now</button>
+    </div>
   );
 }
 
