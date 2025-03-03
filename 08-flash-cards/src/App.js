@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import "./styles.css";
 
 export default function App() {
@@ -43,5 +44,24 @@ const questions = [
 ];
 
 function FlashCards() {
-  return <div>TODO</div>;
+  const [selectedId, setSelected] = useState(null);
+
+  function handleSelect(id) {
+    setSelected(id !== selectedId ? id : null);
+  }
+
+  return (
+    <div className="flashcards">
+      {questions.map((card) => {
+        return (
+          <div
+            className={selectedId !== card.id ? "" : "selected"}
+            onClick={() => handleSelect(card.id)}
+          >
+            <p>{selectedId !== card.id ? card.question : card.answer}</p>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
